@@ -23,7 +23,8 @@ class Binomial(Likelihood):
     """
     def __init__(self, gp_link=None):
         if gp_link is None:
-            gp_link = link_functions.Probit()
+            #gp_link = link_functions.Probit()
+            gp_link = link_functions.logit()
 
         super(Binomial, self).__init__(gp_link, 'Binomial')
 
@@ -178,7 +179,8 @@ class Binomial(Likelihood):
     def exact_inference_gradients(self, dL_dKdiag,Y_metadata=None):
         pass
     def variational_expectations(self, Y, m, v, gh_points=None, Y_metadata=None):
-        if isinstance(self.gp_link, link_functions.Probit):
+        #if isinstance(self.gp_link, link_functions.Probit):
+        if isinstance(self.gp_link, link_functions.logit):
 
             if gh_points is None:
                 gh_x, gh_w = self._gh_points()
