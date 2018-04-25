@@ -86,30 +86,6 @@ class Identity(GPTransformation):
         input_dict["class"] = "GPy.likelihoods.link_functions.Identity"
         return input_dict
 
-class Probit(GPTransformation):
-    """
-    .. math::
-
-        g(f) = \\Phi^{-1} (mu)
-
-    """
-    def transf(self,f):
-        return std_norm_cdf(f)
-
-    def dtransf_df(self,f):
-        return std_norm_pdf(f)
-
-    def d2transf_df2(self,f):
-        return -f * std_norm_pdf(f)
-
-    def d3transf_df3(self,f):
-        return (safe_square(f)-1.)*std_norm_pdf(f)
-
-    def to_dict(self):
-        input_dict = super(Probit, self)._to_dict()
-        input_dict["class"] = "GPy.likelihoods.link_functions.Probit"
-        return input_dict
-
 class logit(GPTransformation):
     """
     .. math::
