@@ -110,6 +110,37 @@ class Probit(GPTransformation):
         input_dict["class"] = "GPy.likelihoods.link_functions.Probit"
         return input_dict
 
+class logit(GPTransformation):
+    """
+    .. math::
+
+        g(f) = logit^{-1}(mu)
+
+    """
+    def transf(self,f):
+        expf = np.exp(f)
+        p = expf/(1+expf)
+        return(p)
+
+    def dtransf_df(self,f):
+        expf = np.exp(-f)
+        p = 1/(1+expf)
+        return(p*(1-p))
+
+    def d2transf_df2(self,f):
+        expf = np.exp(-f)
+        p = 1/(1+expf)
+        return (p*(1-p)*(1-2*p))
+
+    def d3transf_df3(self,f):
+        expf = np.exp(-f)
+        p = 1/(1+expf)
+        return(p*(1-p)*(1-6*p + 6*(p^2)))
+
+    def to_dict(self):
+        input_dict = super(logit, self)._to_dict()
+        input_dict["class"] = "GPy.likelihoods.link_functions.logit"
+        return input_dict        
 
 class Cloglog(GPTransformation):
     """
